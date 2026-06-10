@@ -24,6 +24,8 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
         'Authorization': 'Basic YWRtaW46cHByYTEy',
         'officedetail': 'Sindh-PPRA-Dev',
+        'origin': 'https://portalsindh.eprocure.gov.pk',
+        'referer': 'https://portalsindh.eprocure.gov.pk/',
       },
       body: JSON.stringify(req.body),
     });
