@@ -20,7 +20,11 @@ export default async function handler(req, res) {
   try {
     const response = await fetch(urls[endpoint], {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic YWRtaW46cHByYTEy',
+        'officedetail': 'Sindh-PPRA-Dev',
+      },
       body: JSON.stringify(req.body),
     });
 
