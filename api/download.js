@@ -16,25 +16,32 @@ export default async function handler(req, res) {
           'officedetail': 'Sindh-PPRA-Dev',
           'origin': 'https://portalsindh.eprocure.gov.pk',
           'referer': 'https://portalsindh.eprocure.gov.pk/',
+          'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
         },
         body: JSON.stringify(req.body),
       }
     );
 
     if (!response.ok) {
+      const errText = await response.text();
       return res.status(response.status).json({ 
         error: 'Download failed', 
-        status: response.status 
+        status: response.status,
+        detail: errText
       });
     }
 
     const buffer = await response.arrayBuffer();
+    const byteArray = Buffer.from(buffer);
+
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', 'attachment; filename="tender.pdf"');
-    res.setHeader('Content-Length', buffer.byteLength);
-    res.send(Buffer.from(buffer));
+    res.setHeader('Content-Length', byteArray.length);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    
+    return res.status(200).send(byteArray);
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 }
